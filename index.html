@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>神秘520 - 惊喜大奖等着你</title>
+    <style>
+        body {
+            text-align: center;
+            background: linear-gradient(to right, #ff9a9e, #fad0c4);
+            color: white;
+            font-family: 'Dancing Script', cursive;
+            padding: 20px;
+        }
+        h1 {
+            font-size: 32px;
+            font-weight: bold;
+            margin-top: 50px;
+        }
+        p {
+            font-size: 22px;
+        }
+        .btn {
+            background-color: red;
+            color: white;
+            font-size: 20px;
+            padding: 12px 24px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .btn:hover {
+            background-color: darkred;
+        }
+        #uploadSection, #countdownSection, #finalMessage, #passwordSection, #videoContainer {
+            display: none;
+            margin-top: 20px;
+        }
+        #preview {
+            max-width: 200px;
+            border-radius: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>神秘520，惊喜大奖等着你！</h1>
+    <p>点击参与活动</p>
+    <button class="btn" id="attendBtn" onclick="startEvent()">立即参与</button>
+
+    <!-- Upload Section -->
+    <div id="uploadSection">
+        <h3>💋 上传最甜蜜的吻照，给你的爱人 🎉</h3>
+        <input type="file" id="photoUpload" accept="image/*" onchange="previewImage(event)">
+        <br>
+        <img id="preview">
+        <br>
+        <button class="btn" onclick="startCountdown()">提交照片</button>
+    </div>
+
+    <!-- Countdown Section -->
+    <div id="countdownSection">
+        <h3 id="countdownMessage">神秘男孩正在查看您的照片...</h3>
+        <h2 id="countdownTimer">10</h2>
+    </div>
+
+    <!-- Final Surprise Section -->
+    <div id="finalMessage">
+        <h3>🎉 最性感Kiss大奖属于你！ 🎉</h3>
+        <button class="btn" onclick="askForPassword()">点击领取惊喜</button>
+    </div>
+
+    <!-- Password Protection Before Video -->
+    <div id="passwordSection">
+        <p>请输入您的生日以解锁惊喜</p>
+        <input type="text" id="birthdayInput" placeholder="YYYYMMDD">
+        <button class="btn" onclick="checkPassword()">提交</button>
+    </div>
+
+    <!-- Video Surprise -->
+    <div id="videoContainer">
+        <h3>🎥 专属惊喜为你播放 💖</h3>
+        <iframe width="560" height="315" src="https://drive.google.com/file/d/16ZRqntpSsHqE-XnyPa32ebuOvz-OcvHE/preview" frameborder="0" allowfullscreen></iframe>
+        <p style="color: white; font-size: 18px; margin-top: 10px;">
+            如果视频无法播放，请咨询客服。
+        </p>
+    </div>
+
+    <script>
+        function startEvent() {
+            alert("📸 请先拍一张照片，然后再上传哦！"); // Reminder to take a photo first
+            document.getElementById("uploadSection").style.display = "block";
+            document.getElementById("attendBtn").style.display = "none"; // Hide Attend button
+        }
+
+        function previewImage(event) {
+            let file = event.target.files[0];
+            if (file) {
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById("preview").src = e.target.result;
+                    document.getElementById("preview").style.display = "block";
+                    document.getElementById("attendBtn").style.display = "none"; // Hide Attend button
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function startCountdown() {
+            document.getElementById("uploadSection").style.display = "none";
+            document.getElementById("countdownSection").style.display = "block";
+
+            let countdown = 10;
+            let timer = setInterval(function() {
+                countdown--;
+                document.getElementById("countdownTimer").innerText = countdown;
+                if (countdown <= 0) {
+                    clearInterval(timer);
+                    document.getElementById("countdownSection").style.display = "none";
+                    document.getElementById("finalMessage").style.display = "block";
+                }
+            }, 1000);
+        }
+
+        function askForPassword() {
+            document.getElementById("finalMessage").style.display = "none";
+            document.getElementById("passwordSection").style.display = "block";
+        }
+
+        function checkPassword() {
+            let password = document.getElementById("birthdayInput").value;
+            if (password === "19940102") {  // Updated password
+                document.getElementById("passwordSection").style.display = "none";
+                document.getElementById("videoContainer").style.display = "block";
+            } else {
+                alert("密码错误，请再试一次！");
+            }
+        }
+    </script>
+</body>
+</html>
